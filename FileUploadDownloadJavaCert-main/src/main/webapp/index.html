@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Start Page</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <script>
+        function handleUploadResponse(responseText) {
+            document.getElementById('uploadResponse').innerText = responseText;
+        }
+
+        function uploadFile(event) {
+            event.preventDefault();
+            var form = event.target;
+            var formData = new FormData(form);
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', form.action, true);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    handleUploadResponse(xhr.responseText);
+                }
+            };
+            xhr.send(formData);
+        }
+    </script>
+</head>
+<body>
+    <h1>Hello World!</h1>
+    <p>Sube un archivo.</p>
+    
+    <form method="post" action="upload" enctype="multipart/form-data" onsubmit="uploadFile(event)">
+        <input type="file" name="file" />
+        <input type="submit" value="Subir" />
+    </form>
+    
+    <p id="uploadResponse"></p>
+    
+    <p>Da click en descargar para comenzar la descarga del archivo.</p>
+    <form method="get" action="download" target="_blank">
+        <label for="file">Nombre del archivo:</label>
+        <input type="text" name="file" id="file" />
+        <input type="submit" value="Descargar" />
+    </form>
+
+    <p>Ver archivos subidos:</p>
+    <a href="list-files" target="_blank">Lista de Archivos</a>
+</body>
+</html>
